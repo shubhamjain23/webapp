@@ -1,0 +1,166 @@
+<div ng-app="app" ng-controller="registerCtrl" ng-cloak class="inset">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9 signin_p signup_p">
+                        <p>Sign up to WebApp</p>
+                    </div>
+                </div>
+                <div class=" signup" >
+                    <form name="signUpForm" autocomplete="off">
+                        <div class="row">
+                            <div
+                                    class="form-group"
+                                    ng-class="{
+                                    'has-error': signUpForm.name.$invalid && signUpForm.name.$dirty,
+                                    'has-success': signUpForm.name.$valid
+                                    }">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        name="name"
+                                        placeholder="What do we call you?"
+                                        ng-model="signUpObj.name"
+                                        ng-pattern="/[a-zA-Z]/"
+                                        ng-maxlength="40"
+                                        ng-required="true">
+
+                                <div class="help-block" ng-messages="signUpForm.name.$error" ng-if="signUpForm.name.$touched">
+                                    <p ng-message="pattern">Name can have alphabetical characters only.</p>
+                                    <p ng-message="maxlength">Name must be less than 40 characters.</p>
+                                </div>
+                            </div>
+                         </div>
+                        <div class="row">
+                            <div
+                                    class="form-group"
+                                    ng-class="{
+                                    'has-error': (signUpForm.username_signup.$invalid || usernamePresent)&& signUpForm.username_signup.$dirty,
+                                    'has-success': signUpForm.username_signup.$valid
+                                    }">
+                                <input
+                                        type="text"
+                                        disallow-spaces
+                                        disallow-uppercase
+                                        class="form-control"
+                                        name="username_signup"
+                                        placeholder="Username"
+                                        ng-blur="isUsername()"
+                                        ng-model="signUpObj.username"
+                                        ng-pattern="/^[a-zA-Z_]([a-zA-Z0-9_]+)$/"
+                                        ng-minlength="4"
+                                        ng-maxlength="25"
+                                        ng-required="true">
+
+                                <div class="help-block" ng-messages="signUpForm.username_signup.$error" ng-if="signUpForm.username_signup.$touched">
+                                    <p ng-message="pattern">Username must start with alphabet or low dash and can have number.</p>
+                                    <p ng-message="minlength">Username must have four characters.</p>
+                                    <p ng-message="maxlength">Username must have a maximum length of 25 characters.</p>
+                                </div>
+                                <span ng-show="usernamePresent" style="color:#a94442">Username already present</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div
+                                    class="form-group"
+                                    ng-class="{
+                                    'has-error': signUpForm.pass_signup.$invalid && signUpForm.pass_signup.$dirty,
+                                    'has-success': signUpForm.pass_signup.$valid
+                                    }">
+                                <input
+                                        type="password"
+                                        class="form-control"
+                                        name="pass_signup"
+                                        placeholder="Password"
+                                        ng-model="signUpObj.pass"
+                                        ng-minlength="8"
+                                        ng-maxlength="16"
+                                        ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9@_]+)$/"
+                                        ng-required="true">
+                                <div class="help-block" ng-messages="signUpForm.pass_signup.$error" ng-if="signUpForm.pass_signup.$touched">
+                                    <p ng-message="pattern">Password must contain an alphabet and a number, and can contain 0-9 @ _.</p>
+                                    <p ng-message="minlength">Password must have 8 characters.</p>
+                                    <p ng-message="maxlength">Password must have a maximum length of 16 characters.</p>
+                                </div>
+                            </div>
+                            <div 
+                                    class="form-group"
+                                    ng-class="{
+                                    'has-error': signUpForm.rePass.$invalid && signUpForm.rePass.$dirty,
+                                    'has-success': signUpForm.rePass.$valid
+                                    }">
+                                <input
+                                        type="password"
+                                        class="form-control"
+                                        name="rePass"
+                                        placeholder="Retype password"
+                                        match-password="pass_signup"
+                                        ng-model="rePass"
+                                        ng-paste="$event.preventDefault()"
+                                        ng-required="true">
+                                <div class="help-block" ng-messages="signUpForm.rePass.$error" ng-if="signUpForm.rePass.$touched">
+                                    <p ng-message="passwordMatch">Passwords do not match.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="dropdown form-group">
+                                <button class="dropbtn form-control">Security question</button>
+                            </div>
+                            <div class=" form-group">
+                                <select class=" form-control"ng-model="signUpObj.question" ng-init="signUpObj.question='Favourite food?'">
+                                    <option >Favourite food?</option>
+                                    <option >Mother's maiden name?</option>
+                                    <option >First pet's name?</option>
+                                </select>
+                            </div>
+                            <div
+                                    class="form-group border"
+                                    ng-class="{
+                                    'has-error': signUpForm.answer.$invalid && signUpForm.answer.$dirty,
+                                    'has-success': signUpForm.answer.$valid
+                                    }">
+                                <input
+                                        type="text"
+                                        name="answer"
+                                        class="form-control"
+                                        ng-model="signUpObj.answer"
+                                        placeholder="Your answer"
+                                        ng-pattern="/[a-zA-Z]/"
+                                        ng-required="true">
+                                <div class="help-block" ng-messages="signUpForm.answer.$error" ng-if="signUpForm.answer.$touched">
+                                    <p ng-message="pattern">Answer can only contain alphabetical characters.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <p id="note" class="note">By clicking Create an account, you agree to our <a href="#" ng-click="footer(0)">Terms</a> and confirm that you have read our <a href="#" ng-click="footer(1)">Data Policy</a>.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group create_acc_butn">
+                                <button class="form-control btn" id="btn_create_acc" ng-disabled="((signUpForm.$invalid)||(usernamePresent))" ng-click="createButton()">Create an account</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-5">
+                <img src="#">
+
+            </div>
+        </div>
+    </div>
+</div>

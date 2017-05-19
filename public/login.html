@@ -1,0 +1,187 @@
+<div ng-app="app" ng-controller="mainCtrl" ng-cloak>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6 " >
+                <div class="width">
+                </div>
+                <div class="signin row signin_p">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-9"><p>Sign in to WebApp</p></div>
+                </div>
+                <div class="alert alert-danger alert-dismissable marginTop" ng-show="value">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Invalid username or password
+                </div>
+                <div class="div_border signin">
+                    <form name="signInForm" >
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="username_signin"><span class="glyphicon glyphicon-user"></span> Username</label>
+                                <input type="text" class="form-control" id="username_signin" name="username" ng-model="signInObj.username"   ng-required="true">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="pass_signin"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                                <p class=" pull-right forgot" ><a href="#" ng-click="showForgotDialog($event)">Forgot password?</a></p>
+                                <input type="password" class="form-control" id="pass_signin"  name="password" ng-model="signInObj.pass" ng-required="true" autocomplete="off">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <button class="form-control btn" id="btn_login" ng-disabled="signInForm.$invalid" ng-click="loginClick()">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="div_border create" >
+                    <div class="row">
+                        <p>New here? <a ng-click="toRegister()">Sign me up!</a></p>
+                    </div>
+                </div>
+                <div class="row footer ">
+                    <ul id="menu">
+                        <li><a class="footer_a" href="#" ng-click="footer(0)">Terms</a></li>
+                        <li><a class="footer_a" href="#" ng-click="footer(1)">Policy</a></li>
+                        <li><a class="footer_a" href="#" ng-click="footer(2)">About</a></li>
+                        <li><a class="footer_a" href="#" ng-click="footer(3)">Contact </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-5">
+                <img src="#">
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="dialog1.tmpl.html">
+
+        <md-dialog aria-label="forgotPasswordDialog" style="width:700px; height:500px" layout="row" layout-align="end end">
+            <form ng-cloak>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2>Forgot your password?</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="cancel()">
+                            <md-icon aria-label="close"><i class="material-icons">close</i></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-dialog-content >
+                    <div class="md-dialog-content">
+                        <h3 layout-gt-sm="row">Enter username</h3>
+                        <md-input-container flex-gt-sm="" layout-gt-sm="row">
+                            <input aria-label="username" id="username" ng-model="forgot.username">
+                            <span ng-show="showError" style="color:#a94442">Username not present</span>
+                        </md-input-container>
+                    </div>
+                </md-dialog-content>
+
+                <md-dialog-actions layout="row">
+                    <span flex></span>
+                    <md-button ng-click="showQuestionDialog($event)">
+                        Go ahead
+                    </md-button>
+                </md-dialog-actions>
+            </form>
+        </md-dialog>
+
+    </script>
+    <script type="text/ng-template" id="dialog2.tmpl.html">
+        <md-dialog aria-label="securityQuestionDialog" style="width:700px; height:500px">
+            <form ng-cloak>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2>Forgot your password?</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="cancel()">
+                            <md-icon aria-label="close"><i class="material-icons">close</i></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <md-dialog-content >
+                    <div class="md-dialog-content">
+
+                        <h3 layout-gt-sm="row" ng-repeat="user in data">{{ user.question }}</h3>
+                        <md-input-container flex-gt-sm="" layout-gt-sm="row">
+                            <label>Answer</label>
+                            <input id="answer" ng-model="forgot.answer">
+                        </md-input-container>
+                    </div>
+                </md-dialog-content>
+
+                <md-dialog-actions layout="row">
+                    <span flex></span>
+                    <md-button ng-click="changePasswordDialog($event)">
+                        Go ahead
+                    </md-button>
+                </md-dialog-actions>
+            </form>
+        </md-dialog>
+    </script>
+    <script type="text/ng-template" id="dialog3.tmpl.html">
+        <md-dialog aria-label="changePasswordDialog" style="width:700px; height:500px">
+            <form ng-cloak>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2>Forgot your password?</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="cancel()">
+                            <md-icon aria-label="close"><i class="material-icons">close</i></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <md-dialog-content >
+                    <div class="md-dialog-content" layout-padding="">
+                        <h3 layout-gt-sm="row">Change your password</h3>
+                        <div layout-gt-sm="row">
+                            <form name="form">
+                            <md-input-container flex-gt-sm="" layout="row">
+                                <label>Password</label>
+                                <input
+                                        type="password"
+                                        name="password"
+                                        ng-model="forgot.password"
+                                        ng-minlength="8"
+                                        ng-maxlength="16"
+                                        ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9@_]+)$/"
+                                        ng-required="">
+                                <div class="help-block" ng-messages="form.password.$error" ng-if="form.password.$touched">
+                                    <p ng-message="pattern">Password must contain an alphabet and a number, and can contain 0-9 @ _.</p>
+                                    <p ng-message="minlength">Password must have 8 characters.</p>
+                                    <p ng-message="maxlength">Password must have a maximum length of 16 characters.</p>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex-gt-sm="" layout="row">
+                                <label>Retype password</label>
+                                <input type="password" name="retypePassword"  ng-required="" ng-model="rePass" ng-paste="$event.preventDefault()" match-password="password">
+                                <div ng-messages="form.retypePassword.$error" ng-if="form.retypePassword.$touched">
+                                    <div ng-message="passwordMatch">Passwords do not match.</div>
+                                </div>
+
+                            </md-input-container>
+                            </form>
+                        </div>
+                    </div>
+                </md-dialog-content>
+
+                <md-dialog-actions layout="row">
+                    <span flex></span>
+                    <md-button ng-click="passwordChangedDialog($event)" ng-disabled="">
+                        Go ahead
+                    </md-button>
+                </md-dialog-actions>
+            </form>
+        </md-dialog>
+    </script>
+</div>

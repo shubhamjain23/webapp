@@ -1,0 +1,61 @@
+<div ng-app="app" ng-controller="tabCtrl" ng-cloak>
+    <md-tabs md-dynamic-height md-border-bottom md-selected="3">
+        <md-tab label="Terms">
+            <md-content class="md-padding">
+                <h1 class="md-display-2">Terms</h1>
+            </md-content>
+        </md-tab>
+        <md-tab label="Policy">
+            <md-content class="md-padding">
+                <h1 class="md-display-2">Policy</h1>
+            </md-content>
+        </md-tab>
+        <md-tab label="About">
+            <md-content class="md-padding">
+                <h1 class="md-display-2">About</h1>
+            </md-content>
+        </md-tab>
+        <md-tab label="Contact">
+            <md-content class="md-padding">
+                <form ng-cloak name="contactForm">
+                    <md-input-container flex-gt-sm="" layout-gt-sm="row">
+                        <label>Name</label>
+                        <input type="text" name="name" ng-model="contactObj.name" required ng-pattern="/[a-zA-Z]/" ng-maxlength="40">
+                        <div ng-messages="contactForm.name.$error" ng-if="contactForm.name.$touched">
+                            <div ng-message="pattern">Only alphabetical characters are allowed.</div>
+                            <div ng-message="maxLength">The name must be less than 40 characters.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex-gt-sm="" layout-gt-sm="row">
+                        <label>Email</label>
+                        <input type="email" name="email" ng-model="contactObj.email" required maxlength="100" minlength="10" ng-pattern="/^.+@.+\..+$/">
+                        <div ng-messages="contactForm.email.$error" ng-if="contactForm.email.$touched">
+                            <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">Your email must be between 10 and 100 characters long and look like an e-mail address.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex-gt-sm="" layout-gt-sm="row">
+                        <label>Subject</label>
+                        <input type="text" name="subject" ng-model="contactObj.subject" required ng-pattern="/^([a-zA-Z]+\s)*[a-zA-Z]+$/" ng-maxlength="30">
+                        <div ng-messages="contactForm.subject.$error" ng-if="contactForm.subject.$touched">
+                            <div ng-message-exp="['required', 'maxlength', 'pattern']">Subject must be less than 30 characters and have alphabetical characters only.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex-gt-sm="" layout-gt-sm="row">
+                        <b>How can we help?</b>
+                        <textarea name="para" aia-label="para" ng-model="contactObj.para" required max-rows="4" md-no-resize="true" md-maxlength="300" ng-minlength="60"></textarea>
+                        <div ng-messages="contactForm.para.$error" ng-if="contactForm.para.$touched">
+                            <div ng-message="minLength">Content must be greater than 60 characters.</div>
+                            <div ng-message="md-maxlength">Content must be less than 300 characters.</div>
+                        </div>
+                    </md-input-container>
+
+                    <div layout-gt-sm="row">
+                        <span flex></span>
+                        <md-button ng-disabled="contactForm.$invalid" ng-click="contactFormSubmit($event)">Submit</md-button>
+                    </div>
+
+                </form>
+            </md-content>
+        </md-tab>
+    </md-tabs>
+</div>

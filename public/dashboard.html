@@ -1,0 +1,197 @@
+<div ng-controller="DashboardCtrl" ng-cloak="" class="toolbardemoBasicUsage" ng-app="app">
+<div class="col-md-12">
+    <div class="row">
+
+
+    <md-content>
+        <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" aria-label="Settings">
+                    <md-icon aria-label="logo" class="md-hue-3"><i class="material-icons">home</i></md-icon>
+                </md-button>
+                <md-button style="cursor:default" md-no-ink class="md-icon-button" aria-label="search">
+                    <md-icon class="md-secondary md-hue-3"><i class="material-icons">search</i></md-icon>
+                </md-button>
+                <md-menu md-offset="0 50">
+                    <md-input-container>
+                        <input  aria-label="search text" style="width:150%; color:#ffffff; font-weight: lighter; font-size:80%; border-color: white" ng-model="ob.search" ng-change="searchFn($mdMenu,$event)">
+                    </md-input-container>
+                    <md-menu-content width="6">
+                        <md-list flex-gt-sm="" class="md-dense">
+                            <md-list-item ng-repeat="user in people" ng-if="user.isFriend" ng-click="goToUser(user.username, $event)" class="noright">
+                                <img alt="{{ user.name }}" ng-src="{{ user.img }}" class="md-avatar">
+                                <p>{{ user.name }}</p>
+                                <md-button aria-label="chat" class="md-icon-button"  md-prevent-menu-close="md-prevent-menu-close">
+                                    <md-icon aria-label="chat" class="md-secondary md-hue-3" ng-click="goToChat(user.username)"><i class="material-icons">chat</i></md-icon>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item ng-repeat="user in people" ng-if="user.isFromUser" ng-click="goToUser(user.username, $event)" class="noright">
+                                <img alt="{{ user.name }}" ng-src="{{ user.img }}" class="md-avatar">
+                                <p>{{ user.name }}</p>
+                                <md-button aria-label="done" class="md-icon-button" md-prevent-menu-close="md-prevent-menu-close">
+                                    <md-icon aria-label="done" class="md-secondary md-hue-3"  ng-click="acceptInvitation(user.username)"><i class="material-icons">done</i></md-icon>
+                                </md-button>
+                                <md-button aria-label="cancel" class="md-icon-button"  md-prevent-menu-close="md-prevent-menu-close">
+                                    <md-icon aria-label="cancel" class="md-secondary md-hue-3" ng-click="rejectInvitation(user.username)"><i class="material-icons">close</i></md-icon>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item ng-repeat="user in people" ng-if="user.isToUser" ng-click="goToUser(user.username, $event)" class="noright">
+                                <img alt="{{ user.name }}" ng-src="{{ user.img }}" class="md-avatar">
+                                <p>{{ user.name }}</p>
+                                <md-button aria-label="check circle" md-no-ink class="md-icon-button" style="cursor:default" md-prevent-menu-close="md-prevent-menu-close">
+                                    <md-icon aria-label="check circle" class="md-secondary md-hue-3"><i class="material-icons">check_circle</i></md-icon>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item ng-repeat="user in people" ng-if="((!(user.isFriend))&&(!(user.isFromUser))&&(!(user.isToUser)))" ng-click="goToUser(user.username, $event)" class="noright">
+                                <img alt="{{ user.name }}" ng-src="{{ user.img }}" class="md-avatar">
+                                <p>{{ user.name }}</p>
+                                <md-button aria-label="person add" class="md-icon-button" md-prevent-menu-close="md-prevent-menu-close">
+                                    <md-icon aria-label="person add" ng-click="sendInvitation(user.username)" class="md-secondary md-hue-3"><i class="material-icons">person_add</i></md-icon>
+                                </md-button>
+                            </md-list-item>
+                        </md-list>
+                    </md-menu-content>
+                </md-menu>
+                <span class="flex"></span>
+                <md-menu md-offset="0 50">
+                    <md-button class="md-icon-button" aria-label="Invitations" ng-click="openInvites($mdMenu,$event)">
+                        <md-icon class="md-secondary md-hue-3"><i class="material-icons">person_add</i></md-icon>
+                    </md-button>
+                    <md-menu-content width="5" >
+                        <div ng-if="!isShowSent">
+                            <div ng-if="isPendingInvites">
+                            <md-list class="md-dense">
+                                <md-list-item ng-repeat="user in pendingInvites" ng-click="goToUser(user.fromUser, $event)" ng-if="(user.status=='pending')" class="noright">
+                                    <img alt="{{ user.fromUser }}" ng-src="{{ user.img }}" class="md-avatar">
+                                    <p>{{ user.fromUser }}</p>
+                                    <md-button class="md-icon-button">
+                                        <md-icon ng-click="acceptInvitation(user.fromUser)" class="md-secondary md-hue-3"><i class="material-icons">done</i></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button">
+                                        <md-icon ng-click="rejectInvitation(user.fromUser)" class="md-secondary md-hue-3"><i class="material-icons">close</i></md-icon>
+                                    </md-button>
+                                </md-list-item>
+                                <md-list-item ng-repeat="user in pendingInvites" ng-click="goToUser(user.fromUser, $event)" ng-if="(user.status=='accepted')" class="noright">
+                                    <img alt="{{ user.fromUser }}" ng-src="{{ user.img }}" class="md-avatar">
+                                    <p>{{ user.fromUser }}</p>
+                                        <md-icon class="md-secondary md-hue-3"><i class="material-icons">check_circle</i></md-icon>
+                                    <md-button>
+                                        <md-icon ng-click="cancelPending(user.fromUser)" class="md-secondary md-hue-3"><i class="material-icons" >delete</i></md-icon>
+                                    </md-button>
+                                </md-list-item>
+                                <md-list-item ng-repeat="user in pendingInvites" ng-click="goToUser(user.fromUser, $event)" ng-if="(user.status=='rejected')" class="noright">
+                                    <img alt="{{ user.fromUser }}" ng-src="{{ user.img }}" class="md-avatar">
+                                    <p>{{ user.fromUser }}</p>
+                                    <md-button>
+                                        <md-icon ng-click="cancelPending(user.fromUser)" class="md-secondary md-hue-3"><i class="material-icons" >delete</i></md-icon>
+                                    </md-button>
+                                </md-list-item>
+                            </md-list>
+                            <md-divider></md-divider>
+                            <md-button href="#" ng-click="" md-prevent-menu-close="md-prevent-menu-close">Show sent invites</md-button>
+                        </div>
+
+                        <div ng-if="!isPendingInvites" style="max-height: 250px; min-height: 200px; align-content: center;vertical-align: middle">
+                            <div style="align-content: center">You have no pending invitations</div>
+                            <md-button class="md-raised" ng-click="showSentInvites($mdMenu, $event)" md-prevent-menu-close="md-prevent-menu-close"><p>Show sent invites</p></md-button>
+                        </div>
+                        </div>
+                        <div ng-if="isShowSent">
+                        <div ng-if="isSentInvites">
+                            <md-list class="md-dense">
+                                <md-list-item ng-repeat="user in sentInvites" ng-click="goToUser(user.toUser, $event)" ng-if="(user.status=='pending')" class="noright">
+                                    <img alt="{{ user.toUser }}" ng-src="{{ user.img }}" class="md-avatar">
+                                    <p>{{ user.toUser }}</p>
+                                    <md-button class="md-icon-button">
+                                        <md-icon ng-click="withdraw(user.toUser)" class="md-secondary md-hue-3"><i class="material-icons">close</i></md-icon>
+                                    </md-button>
+                                </md-list-item>
+                                <md-list-item ng-repeat="user in sentInvites" ng-click="goToUser(user.toUser, $event)" ng-if="(user.status=='accepted')" class="noright">
+                                    <img alt="{{ user.toUser }}" ng-src="{{ user.img }}" class="md-avatar">
+                                    <p>{{ user.toUser }}</p>
+                                    <md-icon class="md-secondary md-hue-3"><i class="material-icons">check_circle</i></md-icon>
+                                    <md-button class="md-icon-button">
+                                        <md-icon ng-click="cancelSent(user.toUser)" class="md-secondary md-hue-3"><i class="material-icons" >delete</i></md-icon>
+                                    </md-button>
+                                </md-list-item>
+                                <md-list-item ng-repeat="user in sentInvites" ng-click="goToUser(user.toUser, $event)" ng-if="(user.status=='rejected')" class="noright">
+                                    <img alt="{{ user.toUser }}" ng-src="{{ user.img }}" class="md-avatar">
+                                    <p>{{ user.toUser }}</p>
+                                    <md-button class="md-icon-button">
+                                        <md-icon ng-click="cancelSent(user.toUser)" class="md-secondary md-hue-3"><i class="material-icons" >delete</i></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button">
+                                        <md-icon ng-click="sendInvitationAgain(user.toUser)" class="md-secondary md-hue-3"><i class="material-icons" >person_add</i></md-icon>
+                                    </md-button>
+                                </md-list-item>
+                            </md-list>
+                        </div>
+                        <div ng-if="!isSentInvites" style="max-height: 250px; min-height: 200px; align-content: center;vertical-align: middle">
+                            <div style="align-content: center">You have no sent invitations</div>
+                            <md-button class="md-raised" ng-click="showPendingInvites($mdMenu,$event)" md-prevent-menu-close="md-prevent-menu-close"><p>Show pending invites</p></md-button>
+                        </div>
+                        </div>
+                    </md-menu-content>
+                </md-menu>
+                <md-button class="md-icon-button" aria-label="Chat">
+                    <md-icon class="md-secondary md-hue-3"><i class="material-icons">chat</i></md-icon>
+                </md-button>
+                <md-menu md-offset="0 40">
+                    <md-button aria-label="Open profile menu" class="md-icon-button" ng-click="openMenu($mdMenu, $event)">
+                        <md-icon md-menu-origin="" class="md-secondary md-hue-3"><i class="material-icons">account_circle</i></md-icon>
+                    </md-button>
+                    <md-menu-content width="3">
+                        <md-menu-item >
+                            <md-button class="md-hue-3">
+                                My profile
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button class="md-hue-3">
+                                Settings
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ng-click="logOut()" class="md-hue-3">
+                                <b>Log Out</b>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </md-toolbar>
+        <div class="col-md-3 col-sm-1"></div>
+        <div class="col-md-6 col-sm-10">
+            <div class="row">
+                <div class="row">
+                    <md-toolbar class="md-hue-2">
+                        <div class="md-toolbar-tools">
+                            <md-button class="md-icon-button" aria-label="text_format">
+                                <md-icon class="md-hue-3"><i class="material-icons">text_format</i></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button" aria-label="photo_camera">
+                                <md-icon class="md-hue-3"><i class="material-icons">photo_camera</i></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button" aria-label="photo">
+                                <md-icon class="md-hue-3"><i class="material-icons">photo</i></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button" aria-label="videocam">
+                                <md-icon class="md-hue-3"><i class="material-icons">videocam</i></md-icon>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+                </div>
+                <div class="row" ng-if="show_div"></div>
+                <div class="row"></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-1" ></div>
+        <div ng-if="value" class="animate-if">
+
+        </div>
+    </md-content>
+    </div>
+    <div style="position: absolute; margin-right: 0px; min-height:150px">abc</div>
+</div>
+</div>
