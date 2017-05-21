@@ -14,8 +14,8 @@ var _=require('lodash');
 var http = require('http');
 var io = require('socket.io').listen(app.listen(8080));
 var dburl = 'mongodb://localhost:27017/mydb';
-var crud= require('./utility/CRUD')();
-var util=require('./utility/util')();
+var crud= require('./dbutil/CRUD')();
+var util=require('./server/util')();
 var db;
 
 MongoClient.connect(dburl, function(err, database) {
@@ -30,7 +30,7 @@ app.use('/lib',express.static('libs'));
 app.use('/static', express.static('public'));
 
 app.use('/node_modules', express.static('node_modules'));
-app.use('/utility', express.static('utility'));
+app.use('/server', express.static('server'));
 app.use(session({
     secret:"S3cR3t",
     resave:true,

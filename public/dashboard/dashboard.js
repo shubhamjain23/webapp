@@ -46,7 +46,7 @@ app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "
     $scope.done=false;
     $scope.ob={search:""};
     $scope.people = [];
-    $scope.isPendingInvites=false;
+    $scope.isPendingInvites=true;
     $scope.isSentInvites=false;
     $scope.isShowSent=false;
     $scope.searchFn= function($mdMenu,ev){
@@ -65,14 +65,16 @@ app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "
     };
 
     $scope.goToUser = function(user, event) {
-        console.log("abcde")
+        console.log("abcde");
         var title=user;
         var textContent='Imagine that you have been navigating to ' + user + ' profile.';
         var ariaLabel='User inspect';
         var ok='Ok';
         Service.showAlert(title, textContent, ariaLabel, ok, event);
     };
-
+    $scope.goToHome= function(){
+        $location.path('/home');
+    };
 
     $scope.sendInvitation = function(user, event) {
         var obj={user:user};

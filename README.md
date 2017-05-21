@@ -20,7 +20,7 @@ npm install -g nodemon
 npm install -g bower
 ```
 
-Following commands:
+Then run following commands:
 
 ```
 npm install
@@ -36,4 +36,4 @@ or
 ```
 nodemon server.js
 ```
-The server should start at port 8787.
+Open browser, and run application using localhost:8787

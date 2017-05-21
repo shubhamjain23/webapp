@@ -7,7 +7,7 @@
         <md-toolbar class="md-hue-2">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Settings">
-                    <md-icon aria-label="logo" class="md-hue-3"><i class="material-icons">home</i></md-icon>
+                    <md-icon aria-label="logo" class="md-hue-3" ng-click="goToHome()"><i class="material-icons">home</i></md-icon>
                 </md-button>
                 <md-button style="cursor:default" md-no-ink class="md-icon-button" aria-label="search">
                     <md-icon class="md-secondary md-hue-3"><i class="material-icons">search</i></md-icon>
@@ -88,7 +88,7 @@
                                 </md-list-item>
                             </md-list>
                             <md-divider></md-divider>
-                            <md-button href="#" ng-click="" md-prevent-menu-close="md-prevent-menu-close">Show sent invites</md-button>
+                            <md-button class="md-raised" ng-click="showSentInvites($mdMenu, $event)" md-prevent-menu-close="md-prevent-menu-close"><p>Show sent invites</p></md-button>
                         </div>
 
                         <div ng-if="!isPendingInvites" style="max-height: 250px; min-height: 200px; align-content: center;vertical-align: middle">
@@ -125,6 +125,8 @@
                                     </md-button>
                                 </md-list-item>
                             </md-list>
+                            <md-divider></md-divider>
+                            <md-button class="md-raised" ng-click="showPendingInvites($mdMenu, $event)" md-prevent-menu-close="md-prevent-menu-close"><p>Show pending invites</p></md-button>
                         </div>
                         <div ng-if="!isSentInvites" style="max-height: 250px; min-height: 200px; align-content: center;vertical-align: middle">
                             <div style="align-content: center">You have no sent invitations</div>
@@ -163,7 +165,7 @@
         </md-toolbar>
         <div class="col-md-3 col-sm-1"></div>
         <div class="col-md-6 col-sm-10">
-            <div class="row">
+            <div class="row div_border" style="margin:20px">
                 <div class="row">
                     <md-toolbar class="md-hue-2">
                         <div class="md-toolbar-tools">
@@ -182,8 +184,6 @@
                         </div>
                     </md-toolbar>
                 </div>
-                <div class="row" ng-if="show_div"></div>
-                <div class="row"></div>
             </div>
         </div>
         <div class="col-md-3 col-sm-1" ></div>
@@ -192,6 +192,6 @@
         </div>
     </md-content>
     </div>
-    <div style="position: absolute; margin-right: 0px; min-height:150px">abc</div>
+    <div style="position: absolute; margin-right: 0px; min-height:150px"></div>
 </div>
 </div>
