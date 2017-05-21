@@ -63,17 +63,6 @@ app.service("Service", ["$mdDialog","$mdToast", function($mdDialog,$mdToast){
     function getMessages(){
         return messages;
     }
-    /*function showCustomDialog(DialogController, url, event){
-        $mdDialog.show({
-            controller: DialogController ,
-            templateUrl: url ,
-            parent: angular.element(document.body),
-            targetEvent: event ,
-            openFrom:('#left'),
-            closeTo:(angular.element(document.querySelector('#right'))),
-            fullscreen: true // Only for -xs, -sm breakpoints.
-        })
-    }*/
     var returnObj={
         declareSignInObj:declareSignInObj,
         declareSignUpObj:declareSignUpObj,

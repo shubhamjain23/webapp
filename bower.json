@@ -1,0 +1,31 @@
+{
+  "name": "WebApp",
+  "description": "A social media platform",
+  "main": "",
+  "authors": [
+    "Shubham"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/shubhamjain23/webapp",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-route": "^1.6.4",
+    "angular-messages": "^1.6.4",
+    "angular-password": "^1.0.3",
+    "angular-material": "^1.1.4",
+    "angular-animate": "^1.6.4",
+    "angular-aria": "^1.6.4",
+    "socket.io-client": "^2.0.1",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
+}

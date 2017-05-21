@@ -26,11 +26,11 @@ MongoClient.connect(dburl, function(err, database) {
 
 
 
-
+app.use('/lib',express.static('libs'));
 app.use('/static', express.static('public'));
+
 app.use('/node_modules', express.static('node_modules'));
 app.use('/utility', express.static('utility'));
-app.use('/images', express.static('images'));
 app.use(session({
     secret:"S3cR3t",
     resave:true,
@@ -63,7 +63,7 @@ app.post('/sendMessage',function(req,res){
 
 app.get('/', function(req, res) {
 
-    res.sendFile(path.join(__dirname + '/public/index.html'));
+    res.sendFile(path.join(__dirname + '/public/main/index.html'));
 });
 app.get('/showPendingInvites', function(req,res){
     crud.listPendingInvites(db,'invitation', req.session.user, function(err,result){
