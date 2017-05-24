@@ -1,7 +1,7 @@
 /**
  * Created by Shubham on 06-03-2017.
  */
-app.controller('mainCtrl',['$scope', '$http', '$location', '$mdDialog', '$rootScope', 'Service' ,function ($scope, $http , $location, $mdDialog, $rootScope,Service) {
+app.controller('mainCtrl',['$scope', '$http', '$location', '$mdDialog', '$rootScope', 'Service',function ($scope, $http , $location, $mdDialog, $rootScope,Service) {
     $scope.value=false;
 
     $scope.forgot={
@@ -25,6 +25,7 @@ app.controller('mainCtrl',['$scope', '$http', '$location', '$mdDialog', '$rootSc
             data: $scope.signInObj
         }).then(function(response){
             if((response.data.error==false)&&(response.data.success==true)){
+
                 $rootScope.object=response.data.responseObj;
                 $location.path('/home')
             }
@@ -34,7 +35,7 @@ app.controller('mainCtrl',['$scope', '$http', '$location', '$mdDialog', '$rootSc
                 $scope.value = true;
             }
         });
-    }
+    };
     $scope.showForgotDialog = function(event) {
         //Service.showCustomDialog(DialogController, url, event);
         $mdDialog.show({

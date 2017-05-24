@@ -2,7 +2,7 @@
  * Created by Shubham on 06-04-2017.
  */
 module.exports = function() {
-
+    var crud= require('./../dbutil/CRUD')();
     function sendResponse(){
         var obj={
             error:false,
@@ -24,14 +24,33 @@ module.exports = function() {
         };
         return invitationObj;
     }
-    function getConnectionId(user, sessionUser){
-        var connectionId="~"+user+"~"+sessionUser+"~";
-        return connectionId;
+    function setConversationId(db,collection,sessionUser, clickedUser){
+        var doc={
+            conversationId:new require('bson').ObjectID().toString(),
+            member1:sessionUser,
+            member2:clickedUser,
+            messages: {
+                fromUser:"",
+                messageText:"",
+                timestamp:""
+            }
+        };
+        crud.create(db,collection,doc,function(err){
+            if(!err)
+            console.log("conversation id stored")
+        });
+    }
+    function getConversationId(){
+    //mongodb query to get conversation id
+        var conversationId="id";
+        console.log(conversationId);
+        return conversationId;
     }
     var returnObj= {
         sendResponse: sendResponse,
         declareInvitationObj: declareInvitationObj,
-        getConnectionId: getConnectionId
+        getConversationId: getConversationId,
+        setConversationId: setConversationId
     };
     return returnObj;
 };

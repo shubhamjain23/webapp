@@ -3,8 +3,7 @@
  */
 app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "$location", "Service" ,function ($scope, $http, $mdDialog, $rootScope, $location, Service) {
 
-    //var socket=io('http://localhost');
-    $scope.goToChat= function(user){
+    $scope.goToChat= function(user){//work in progress
         var obj={user:user};
         $http({
             method:'POST',
@@ -15,16 +14,6 @@ app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "
             $location.path('chatPage');
         })
     };
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -50,7 +39,7 @@ app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "
     $scope.isSentInvites=false;
     $scope.isShowSent=false;
     $scope.searchFn= function($mdMenu,ev){
-        if($scope.ob.search.replace(/ /g,"").length>3) {
+        if($scope.ob.search.replace(/ /g,"").length>1) {
             $http({
                 method: "POST",
                 url: "/search",

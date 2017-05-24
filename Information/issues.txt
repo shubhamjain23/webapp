@@ -1,0 +1,6 @@
+1. delay at direct hit on url
+2. url rewriting
+3. backdrop & event propagation of simple $mdDialog (service.js)
+4. in getting index of footer(terms, policy, about,contact)
+5. dynamically created regex ($regex not working with $in)
+6.  chat page ui

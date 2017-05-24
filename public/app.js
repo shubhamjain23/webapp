@@ -9,19 +9,43 @@ app.config(function($routeProvider, $locationProvider) {
         .when('/', {
             url:'/',
             templateUrl : '/static/login/login.html',
-            controller  : 'mainCtrl'
+            controller  : 'mainCtrl',
+            resolve:{
+                isLoggedIn: ['Service','$location',function(Service,$location){
+                    return Service.isLoggedIn().then(function(response){
+                        if(response==true)
+                        $location.path('/home');
+                    });
+                }]
+            }
         })
         //route for sign up
         .when('/register', {
             url:'/register',
             templateUrl : '/static/register/register.html',
-            controller  : 'registerCtrl'
+            controller  : 'registerCtrl',
+            resolve:{
+                isLoggedIn: ['Service','$location',function(Service,$location){
+                    return Service.isLoggedIn().then(function(response){
+                        if(response==true)
+                            $location.path('/home');
+                    });
+                }]
+            }
         })
         // route for the home page
         .when('/home', {
             url:'/home',
             templateUrl : '/static/dashboard/dashboard.html',
-            controller  : 'DashboardCtrl'
+            controller  : 'DashboardCtrl',
+            resolve:{
+                isLoggedIn: ['Service','$location',function(Service,$location){
+                    return Service.isLoggedIn().then(function(response){
+                        if(response==false)
+                            $location.path('/');
+                    });
+                }]
+            }
         })
         // route for contact, policy, terms, about
         .when('/tabs',{
@@ -32,8 +56,16 @@ app.config(function($routeProvider, $locationProvider) {
         .when('/chatPage',{
             url:'/chat',
             templateUrl:'/static/chat/chatPage.html',
-            controller:'chatCtrl'
+            controller:'chatCtrl',
+            resolve:{
+                isLoggedIn: ['Service','$location',function(Service,$location){
+                    return Service.isLoggedIn().then(function(response){
+                        if(response==false)
+                            $location.path('/');
+                    });
+                }]
+            }
         });
-    $locationProvider.html5Mode(true);
+    //$locationProvider.html5mode(true);
 });
 

@@ -1,13 +1,14 @@
 {
   "name": "WebApp",
   "description": "A social media platform",
-    "scripts":{
-        "start":"node server.js"
-    },
+  "scripts": {
+    "start": "node server.js"
+  },
   "version": "0.0.0",
   "dependencies": {
     "assert": "~1.4.1",
     "body-parser": "~1.17.1",
+    "bson": "^1.0.4",
     "express": "~4.15.2",
     "express-session": "~1.15.2",
     "lodash": "^4.17.4",

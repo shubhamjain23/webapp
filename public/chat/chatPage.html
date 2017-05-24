@@ -1,17 +1,21 @@
+<!--work in progress-->
 <div ng-app="app" ng-controller="chatCtrl">
-<md-content>
-    <div>
-{{messages}}
-        {{message}}
-    </div>
+    <md-content>
+        <div>
+            {{messages}}
+            {{message}}
+        </div>
 
-    <div layout="row" style="margin-bottom:0px">
-        <textarea flex placeholder="Type something here" ng-model="obj.messageText"></textarea>
-        <md-button aria-label="send message" class="md-icon-button" >
-            <md-icon aria-label="send message" class="md-secondary md-hue-3" ng-click="sendMessage()">
-                <i class="material-icons">send</i>
-            </md-icon>
-        </md-button>
-    </div>
-</md-content>
+        <div layout="row" style="position:fixed;bottom:0;width:100%">
+            <form ng-submit="sendMessage()" >
+                <textarea flex placeholder="Type something here" ng-model="obj.messageText"></textarea>
+                <input type="submit" value="send" ng-click="sendMessage()">
+                <md-button aria-label="send message" class="md-icon-button" >
+                    <md-icon aria-label="send message" class="md-secondary md-hue-3" ng-click="sendMessage()">
+                        <i class="material-icons">send</i>
+                    </md-icon>
+                </md-button>
+            </form>
+        </div>
+    </md-content>
 </div>
