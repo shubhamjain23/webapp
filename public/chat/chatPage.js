@@ -7,13 +7,23 @@ app.controller('chatCtrl',['$http','$scope','Service', 'socket',function($http,$
     $scope.messages=Service.getMessages();
 
     $scope.sendMessage= function(){
-        console.log("inSendMessage");
-        socket.emit('chat message', {
-            'message': $scope.obj
-        })
+        console.log("inSendMessage chatPage.js");
+        $http({
+            method:'GET',
+            url: '/getSessionUser'
+        }).then(function(response){
+           if(response.data!=null){
+               var timestamp= Date.now();
+               socket.emit('chat message', {
+                   'user':response.data,
+                   'messageText': $scope.obj.messageText,
+                   'timestamp':timestamp
+               })
+           }
+        });
+
     };
     socket.on('chat message', function(data) {
-        console.log(data);
         $scope.message=data.message;
 
     });

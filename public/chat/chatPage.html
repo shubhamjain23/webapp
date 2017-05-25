@@ -6,11 +6,10 @@
             {{message}}
         </div>
 
-        <div layout="row" style="position:fixed;bottom:0;width:100%">
-            <form ng-submit="sendMessage()" >
-                <textarea flex placeholder="Type something here" ng-model="obj.messageText"></textarea>
-                <input type="submit" value="send" ng-click="sendMessage()">
-                <md-button aria-label="send message" class="md-icon-button" >
+        <div layout="row" style="position:fixed;bottom:0;display:block;width:100%">
+            <form >
+                <textarea placeholder="Type something here" ng-model="obj.messageText" style="display:block;resize:none;outline:none;width:95%;float:left;margin-bottom: 0px" rows="3"></textarea>
+                <md-button aria-label="send message" class="md-icon-button" style="display:block;width:4%;float:right">
                     <md-icon aria-label="send message" class="md-secondary md-hue-3" ng-click="sendMessage()">
                         <i class="material-icons">send</i>
                     </md-icon>

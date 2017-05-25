@@ -24,33 +24,42 @@ module.exports = function() {
         };
         return invitationObj;
     }
-    function setConversationId(db,collection,sessionUser, clickedUser){
-        var doc={
-            conversationId:new require('bson').ObjectID().toString(),
-            member1:sessionUser,
-            member2:clickedUser,
-            messages: {
-                fromUser:"",
-                messageText:"",
-                timestamp:""
+    var id='default';
+    function checkOrSetConversationId(db,collection,sessionUser, clickedUser){
+        crud.findConvId(db,collection,sessionUser,clickedUser,function(err,result){
+            if(err!=null)
+                console.log("error");
+            else {
+                if (result.length == 1){
+                    id=result[0].conversationId;
+                }
+                else if(result.length!=0&&result.length!=1)
+                    console.log("error occurred util.js 37");
+                else {
+                    var doc={
+                        conversationId:new require('bson').ObjectID().toString(),
+                        member1:sessionUser,
+                        member2:clickedUser,
+                        messages: []
+                    };
+                    crud.create(db,collection,doc,function(err){
+                        if(!err){
+                            console.log("conversation id stored");
+                            id=doc.conversationId;
+                        }
+                    });
+                }
             }
-        };
-        crud.create(db,collection,doc,function(err){
-            if(!err)
-            console.log("conversation id stored")
         });
     }
     function getConversationId(){
-    //mongodb query to get conversation id
-        var conversationId="id";
-        console.log(conversationId);
-        return conversationId;
+        return id;
     }
     var returnObj= {
         sendResponse: sendResponse,
         declareInvitationObj: declareInvitationObj,
         getConversationId: getConversationId,
-        setConversationId: setConversationId
+        checkOrSetConversationId: checkOrSetConversationId
     };
     return returnObj;
 };

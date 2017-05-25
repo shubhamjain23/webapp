@@ -38,6 +38,10 @@ app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "
     $scope.isPendingInvites=true;
     $scope.isSentInvites=false;
     $scope.isShowSent=false;
+    $scope.ifText=false;
+    $scope.toggle=function(){
+        $scope.ifText=!$scope.ifText;
+    };
     $scope.searchFn= function($mdMenu,ev){
         if($scope.ob.search.replace(/ /g,"").length>1) {
             $http({

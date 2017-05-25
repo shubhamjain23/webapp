@@ -170,7 +170,7 @@
                     <md-toolbar class="md-hue-2">
                         <div class="md-toolbar-tools">
                             <md-button class="md-icon-button" aria-label="text_format">
-                                <md-icon class="md-hue-3"><i class="material-icons">text_format</i></md-icon>
+                                <md-icon class="md-hue-3" ng-click="toggle()"><i class="material-icons">text_format</i></md-icon>
                             </md-button>
                             <md-button class="md-icon-button" aria-label="photo_camera">
                                 <md-icon class="md-hue-3"><i class="material-icons">photo_camera</i></md-icon>
@@ -183,6 +183,23 @@
                             </md-button>
                         </div>
                     </md-toolbar>
+                </div>
+                <div class="row" ng-if="ifText">
+                    <form>
+                        <div style="margin-top: 15px;width: inherit">
+                            <textarea placeholder="What are you up to?"style="display:block;resize:none;outline:none;width:100% "rows="5"></textarea>
+                        </div>
+                        <div>
+                            <md-input-container style="margin-bottom:0px;width:70%">
+                                <label>-by</label>
+                                <input />
+                            </md-input-container>
+                            </div>
+                        <div>
+                            <md-checkbox ng-disabled="true">make it a quote</md-checkbox>
+                            <md-button class="md-raised md-primary" style="float: right">Post</md-button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

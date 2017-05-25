@@ -107,7 +107,33 @@ module.exports = function () {
             callback(err);
         })
     }
+    function findConvId(db,collection,sessionUser,clickedUser,callback){
+        db.collection(collection).find({$or:[
+            {$and:[
+                {member1:sessionUser},
+                {member2:clickedUser}]
+            },
+            {$and:[
+                {member1:clickedUser},
+                {member2:sessionUser}]
+            }]},{conversationId:1,_id:0}).toArray(function(err,result){
+            callback(err,result);
+        })
+    }
+    function storeMessage(db,collection,room,doc,callback){
+        db.collection(collection).updateOne({conversationId:room},{$addToSet:{messages:{$each:[doc]}}},function(err){
+            callback(err);
+        })
+    }
+    /*function getMessages(db,collection,id,callback){
+        db.collection(collection).find({conversationId:id},{messages:1}).toArray(function(err,result){
+            callback(err,result);
+        })
+    }*/
     var returnObj = {
+        //getMessages:getMessages,
+        findConvId: findConvId,
+        storeMessage: storeMessage,
         create: create,
         listUsers: listUsers,
         listFriends: listFriends,

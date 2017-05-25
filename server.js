@@ -38,21 +38,36 @@ app.use(session({
 app.use(bodyParser.json());
 
 io.on('connection', function (socket) {//code in work
-    var room=util.getConversationId();
-    socket.join(room);
-    console.log("joined");
     socket.on('chat message', function (data) {
-        io.to(room).emit('chat message', data);
+        var room=util.getConversationId();
+        socket.join(room);
+        console.log(room);
+        console.log(data);
+        crud.storeMessage(db,'conversation',room,data, function(err){
+            if(err==null)
+                io.to(room).emit('chat message', data);
+        });
     });
 });
 
 app.post('/restoreOldMessages',function(req,res){//code in work
-    util.setConversationId(db,'conversation',req.session.user,req.body);
-    var conversationId=util.getConversationId();
-    var msg="msg";
+    util.checkOrSetConversationId(db,'conversation',req.session.user,req.body.user);
+    var id=util.getConversationId();
+    /*crud.getMessages(db,'conversation',id,function(err,result){
+    });
+    something like that
+    aggregate or find
+    $match, $unwind, $match, $sort, limit(50), display only messages
+    */
+    var msg="restoring messages";
     res.send(msg);
 });
-
+app.get('/getSessionUser',function(req,res){
+    if(req.session.user)
+        res.send(req.session.user);
+    else
+        res.send(null);
+});
 app.get('/', function(req, res) {
 
     res.sendFile(path.join(__dirname + '/public/main/index.html'));
