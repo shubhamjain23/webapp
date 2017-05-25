@@ -25,16 +25,20 @@ module.exports = function() {
         return invitationObj;
     }
     var id='default';
-    function checkOrSetConversationId(db,collection,sessionUser, clickedUser){
+    function checkOrSetConversationId(db,collection,sessionUser, clickedUser,callback){
         crud.findConvId(db,collection,sessionUser,clickedUser,function(err,result){
             if(err!=null)
-                console.log("error");
+                callback(err);
             else {
                 if (result.length == 1){
                     id=result[0].conversationId;
+                    callback(err);
                 }
                 else if(result.length!=0&&result.length!=1)
-                    console.log("error occurred util.js 37");
+                    {
+                        console.log("error occurred util.js 37");
+                        callback(err);
+                    }
                 else {
                     var doc={
                         conversationId:new require('bson').ObjectID().toString(),
@@ -48,6 +52,7 @@ module.exports = function() {
                             id=doc.conversationId;
                         }
                     });
+                    callback(err);
                 }
             }
         });

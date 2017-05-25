@@ -125,13 +125,13 @@ module.exports = function () {
             callback(err);
         })
     }
-    /*function getMessages(db,collection,id,callback){
-        db.collection(collection).find({conversationId:id},{messages:1}).toArray(function(err,result){
+    function getMessages(db,collection,id,callback){
+        db.collection(collection).find({conversationId:id},{messages:1,_id:0}).toArray(function(err,result){
             callback(err,result);
         })
-    }*/
+    }
     var returnObj = {
-        //getMessages:getMessages,
+        getMessages:getMessages,
         findConvId: findConvId,
         storeMessage: storeMessage,
         create: create,

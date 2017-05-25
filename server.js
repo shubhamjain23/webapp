@@ -41,8 +41,6 @@ io.on('connection', function (socket) {//code in work
     socket.on('chat message', function (data) {
         var room=util.getConversationId();
         socket.join(room);
-        console.log(room);
-        console.log(data);
         crud.storeMessage(db,'conversation',room,data, function(err){
             if(err==null)
                 io.to(room).emit('chat message', data);
@@ -51,16 +49,23 @@ io.on('connection', function (socket) {//code in work
 });
 
 app.post('/restoreOldMessages',function(req,res){//code in work
-    util.checkOrSetConversationId(db,'conversation',req.session.user,req.body.user);
-    var id=util.getConversationId();
-    /*crud.getMessages(db,'conversation',id,function(err,result){
-    });
-    something like that
-    aggregate or find
-    $match, $unwind, $match, $sort, limit(50), display only messages
-    */
-    var msg="restoring messages";
-    res.send(msg);
+    util.checkOrSetConversationId(db,'conversation',req.session.user,req.body.user,function(err){
+        if(err!=null)
+            console.log("error");
+        var id=util.getConversationId();
+        crud.getMessages(db,'conversation',id,function(err,result){
+            if(result.length==1)
+                res.send(result[0].messages);
+            else
+                res.send([]);
+        });
+        /*crud.getMessages(db,'conversation',id,function(err,result){
+        });
+        something like that
+        aggregate or find
+        $match, $unwind, $match, $sort, limit(50), display only messages
+        */
+        });    
 });
 app.get('/getSessionUser',function(req,res){
     if(req.session.user)
