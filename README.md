@@ -28,6 +28,13 @@ npm install
 ```
 bower install
 ```
+Then run mongod.exe to start mongodb.
+Usual code to run mongodb.exe from command prompt terminal of windows is
+```
+"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe"
+```
+This only works if the path to mongod.exe is same as mentioned above.
+
 To start server, you can run either:
 ```
 npm start
@@ -36,4 +43,6 @@ or
 ```
 nodemon server.js
 ```
-Open browser, and run application using localhost:8787
+Open browser, and run application using localhost:6768
+
+Note:You cannot start server without running mongod.exe
