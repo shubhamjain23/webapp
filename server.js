@@ -26,7 +26,6 @@ MongoClient.connect(dburl, function(err, database) {
     http.listen(6768);
 });
 
-app.use('/lib',express.static('libs'));
 app.use('/static', express.static('public'));
 
 app.use('/node_modules', express.static('node_modules'));
