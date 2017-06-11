@@ -11,22 +11,10 @@ The Installation process assumes that you already have the above technologies in
 
 ## Install
 
-You must have nodemon and bower installed on your machine. If not, run these commands:
-
-```
-npm install -g nodemon
-```
-```
-npm install -g bower
-```
-
-Then run following commands:
+Run following commands:
 
 ```
 npm install
-```
-```
-bower install
 ```
 Then run mongod.exe to start mongodb.
 Usual code to run mongodb.exe from command prompt terminal of windows is
@@ -41,7 +29,7 @@ npm start
 ```
 or
 ```
-nodemon server.js
+node server.js
 ```
 Open browser, and run application using localhost:6768
 
