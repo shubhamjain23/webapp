@@ -185,19 +185,23 @@
                     </md-toolbar>
                 </div>
                 <div class="row" ng-if="ifText">
-                    <form>
+                    <form ng-submit="postFeed()">
                         <div style="margin-top: 15px;width: inherit">
-                            <textarea placeholder="What are you up to?"style="display:block;resize:none;outline:none;width:100% "rows="5"></textarea>
+                            <textarea 
+                                placeholder="What are you up to?"
+                                style="display:block;resize:none;outline:none;width:100% " 
+                                rows="5"
+                                ng-model="obj.content"></textarea>
                         </div>
-                        <div>
+                        <!--div>
                             <md-input-container style="margin-bottom:0px;width:70%">
                                 <label>-by</label>
                                 <input />
                             </md-input-container>
-                            </div>
+                            </div-->
                         <div>
-                            <md-checkbox ng-disabled="true">make it a quote</md-checkbox>
-                            <md-button class="md-raised md-primary" style="float: right">Post</md-button>
+                            <!--md-checkbox ng-disabled="true">make it a quote</md-checkbox-->
+                            <md-button type="submit" class="md-raised md-primary" style="float: right">Post</md-button>
                         </div>
                     </form>
                 </div>

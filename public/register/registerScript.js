@@ -1,7 +1,7 @@
 /**
  * Created by Shubham on 15-04-2017.
  */
-app.controller("registerCtrl",["$scope", "$http", "$location", "Service",function ($scope, $http, $location, Service) {
+app.controller("registerCtrl",["$scope", "$http", "$location", "Service", 'Authentication',function ($scope, $http, $location, Service, Authentication) {
 
     $scope.signUpObj=Service.declareSignUpObj();
 
@@ -28,8 +28,10 @@ app.controller("registerCtrl",["$scope", "$http", "$location", "Service",functio
             url : "/addUser",
             data: $scope.signUpObj
         }).then(function(response){
-            if((response.data.error==false)&&(response.data.success==true))
+            if((response.data.error==false)&&(response.data.success==true)){
+                Authentication.saveToken(response.data.token);
                 $location.path('/home');
+            }
             else{
                 var message="Oops! An error. Our apologies.";
                 Service.showToast(message);

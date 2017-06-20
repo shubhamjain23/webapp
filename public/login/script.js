@@ -1,7 +1,7 @@
 /**
  * Created by Shubham on 06-03-2017.
  */
-app.controller('mainCtrl',['$scope', '$http', '$location', '$mdDialog', '$rootScope', 'Service',function ($scope, $http , $location, $mdDialog, $rootScope,Service) {
+app.controller('mainCtrl',['$scope', '$http', '$location', '$mdDialog', '$rootScope', 'Service', 'Authentication',function ($scope, $http , $location, $mdDialog, $rootScope,Service, Authentication) {
     $scope.value=false;
 
     $scope.forgot={
@@ -25,7 +25,7 @@ app.controller('mainCtrl',['$scope', '$http', '$location', '$mdDialog', '$rootSc
             data: $scope.signInObj
         }).then(function(response){
             if((response.data.error==false)&&(response.data.success==true)){
-
+                Authentication.saveToken(response.data.token);
                 $rootScope.object=response.data.responseObj;
                 $location.path('/home')
             }

@@ -2,7 +2,8 @@
  * Created by Shubham on 06-04-2017.
  */
 module.exports = function() {
-    var crud= require('./../dbutil/CRUD')();
+    var crud= require('./../dbutil/CRUD')(),
+        jwt=require('jsonwebtoken');
     function sendResponse(){
         var obj={
             error:false,
@@ -60,11 +61,17 @@ module.exports = function() {
     function getConversationId(){
         return id;
     }
+    function generatejwt(username){
+        return jwt.sign({
+            username: username,
+        }, "Secret1549846kjbyewg87gfweliuvywf7u3");
+    }
     var returnObj= {
         sendResponse: sendResponse,
         declareInvitationObj: declareInvitationObj,
         getConversationId: getConversationId,
-        checkOrSetConversationId: checkOrSetConversationId
+        checkOrSetConversationId: checkOrSetConversationId,
+        generatejwt: generatejwt
     };
     return returnObj;
 };

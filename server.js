@@ -3,22 +3,22 @@
  */
 
 
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var path = require('path');
-var assert= require('assert');
-var MongoClient = require('mongodb').MongoClient;
-var bodyParser = require('body-parser');
-var session=require('express-session');
-var _=require('lodash');
+var express = require('express'),
+    app = express(),
+    http = require('http').createServer(app),
+    io = require('socket.io').listen(http),
+    path = require('path'),
+    assert= require('assert'),
+    MongoClient = require('mongodb').MongoClient,
+    bodyParser = require('body-parser'),
+    session=require('express-session'),
+    _=require('lodash'),
+    atob=require('atob');
 
-
-var dburl = 'mongodb://localhost:27017/mydb';
-var crud= require('./dbutil/CRUD')();
-var util=require('./server/util')();
-var db;
+var dburl = 'mongodb://localhost:27017/mydb',
+    crud= require('./dbutil/CRUD')(),
+    util=require('./server/util')(),
+    db;
 
 MongoClient.connect(dburl, function(err, database) {
     assert.equal(null, err);
@@ -32,17 +32,20 @@ app.use('/node_modules', express.static('node_modules'));
 app.use('/server', express.static('server'));
 app.use(session({
     secret:"S3cR3t",
-    resave:true,
+    resave:false,
     saveUninitialized:true}));
 app.use(bodyParser.json());
 
 io.on('connection', function (socket) {//code in work
+    console.log("a connection established");
     socket.on('chat message', function (data) {
+        console.log("in chat message event server side");
         var room=util.getConversationId();
         socket.join(room);
         crud.storeMessage(db,'conversation',room,data, function(err){
+            console.log("storing message");
             if(err==null)
-                io.to(room).emit('chat message', data);
+                io.to(room).emit('new message', data);
         });
     });
 });
@@ -53,6 +56,7 @@ app.post('/restoreOldMessages',function(req,res){//code in work
             console.log("error");
         var id=util.getConversationId();
         crud.getMessages(db,'conversation',id,function(err,result){
+            console.log("getting messages");
             if(result.length==1)
                 res.send(result[0].messages);
             else
@@ -64,7 +68,8 @@ app.post('/restoreOldMessages',function(req,res){//code in work
         aggregate or find
         $match, $unwind, $match, $sort, limit(50), display only messages
         */
-        });    
+    });
+    console.log("in restore")    
 });
 app.get('/getSessionUser',function(req,res){
     if(req.session.user)
@@ -76,13 +81,6 @@ app.get('/', function(req, res) {
 
     res.sendFile(path.join(__dirname + '/public/main/index.html'));
 });
-app.get('/isLoggedIn',function(req,res){ //to check user is logged in or not at routing(resolve)
-    if(req.session.user)
-        res.send({"isLoggedIn":true});
-    else
-        res.send({"isLoggedIn":false});
-});
-
 app.get('/showPendingInvites', function(req,res){
     crud.listPendingInvites(db,'invitation', req.session.user, function(err,result){
         res.send(result);
@@ -97,6 +95,25 @@ app.get('/logout', function(req,res){
     req.session.destroy();
     console.log("Session destroyed");
     res.send("success");
+});
+app.post('/isLoggedIn',function(req,res){ //to check user is logged in or not at routing(resolve)
+    var payload;
+    if(req.body.token){
+        payload = (req.body.token).split('.')[1];
+        payload = atob(payload);
+        payload = JSON.parse(payload);
+    }
+    console.log(payload);
+    console.log(req.session);
+    if(payload==undefined)
+        res.send({"isLoggedIn":false});
+    else{
+        if(payload.username==req.session.user)
+            res.send({"isLoggedIn":true});
+        else
+            res.send({"isLoggedIn":false});
+    }
+    
 });
 app.post('/acceptInvitation', function(req,res){
     crud.acceptRejectAgainInvitation(db, 'invitation', req.body.user, req.session.user, 'accepted', function(err){
@@ -168,7 +185,9 @@ app.post('/addUser', function (req,res) {
         }
         else if(err==null) {
             req.session.user = req.body.username;
+            obj.token=util.generatejwt(req.body.username);
             console.log("Session created for "+ req.session.user);
+            console.log(obj.token);
         }
         res.send(obj);
     });
@@ -183,6 +202,7 @@ app.post('/checkUser', function (req,res) {
         else {
             if (result.length == 1) {
                 req.session.user=req.body.username;
+                obj.token=util.generatejwt(req.body.username);
                 console.log("Session created for "+ req.session.user);
                 obj.responseObj = result;
             }

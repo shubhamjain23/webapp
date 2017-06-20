@@ -1,7 +1,7 @@
 /**
  * Created by Shubham on 28-04-2017.
  */
-app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "$location", "Service" ,function ($scope, $http, $mdDialog, $rootScope, $location, Service) {
+app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "$location", "Service", 'Authentication',function ($scope, $http, $mdDialog, $rootScope, $location, Service, Authentication) {
 
     $scope.goToChat= function(user){//work in progress
         var obj={user:user};
@@ -34,6 +34,7 @@ app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "
     $scope.rejected=false;
     $scope.done=false;
     $scope.ob={search:""};
+    $scope.content="";
     $scope.people = [];
     $scope.isPendingInvites=true;
     $scope.isSentInvites=false;
@@ -43,7 +44,7 @@ app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "
         $scope.ifText=!$scope.ifText;
     };
     $scope.searchFn= function($mdMenu,ev){
-        if($scope.ob.search.replace(/ /g,"").length>1) {
+        if($scope.ob.search.replace(/ /g,"").length>3) {
             $http({
                 method: "POST",
                 url: "/search",
@@ -229,8 +230,21 @@ app.controller('DashboardCtrl', ["$scope", "$http", "$mdDialog", "$rootScope", "
             method: 'GET',
             url: '/logOut'
         }).then(function(response){
-            if(response.data=="success")
+            if(response.data=="success"){
+                Authentication.logOut();
                 $location.path('/');
+            }
+                
+        })
+    };
+    $scope.postFeed= function(){
+        var obj={content:$scope.content}
+        $http({
+            method:"POST",
+            url:'/postFeed',
+            data:obj
+        }).then(function(response){
+
         })
     };
 }]);

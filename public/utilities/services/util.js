@@ -1,20 +1,8 @@
 /**
  * Created by Shubham on 11-03-2017.
  */
-app.service("Service", ["$mdDialog","$mdToast","$q","$http", function($mdDialog,$mdToast,$q,$http){
-    function isLoggedIn(){
-        return $q(function(resolve,reject){
-            $http({
-                method:'GET',
-                url: '/isLoggedIn'
-            }).then(function(response){
-                setTimeout(function() {
-                    resolve(response.data.isLoggedIn);
-                }, 1000);
-            });
+app.service("Service", ["$mdDialog","$mdToast", function($mdDialog,$mdToast){
 
-        })
-    }
     function declareSignInObj() {
         var signInObj = {
             username: "",
@@ -77,7 +65,6 @@ app.service("Service", ["$mdDialog","$mdToast","$q","$http", function($mdDialog,
         return messages;
     }
     var returnObj={
-        isLoggedIn: isLoggedIn,
         declareSignInObj:declareSignInObj,
         declareSignUpObj:declareSignUpObj,
         declareContactObj: declareContactObj,

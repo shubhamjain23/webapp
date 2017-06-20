@@ -8,10 +8,12 @@ app.controller('chatCtrl',['$http','$scope','Service', 'socket',function($http,$
     $scope.messages=messages;
 
     $scope.sendMessage= function(){
+        console.log("chatpage.js send message function")
         $http({
             method:'GET',
             url: '/getSessionUser'
         }).then(function(response){
+            console.log("then chatpage.js send message function")
            if(response.data!=null){
                socket.emit('chat message', {
                    'user':response.data,
@@ -21,7 +23,7 @@ app.controller('chatCtrl',['$http','$scope','Service', 'socket',function($http,$
            }
         });
     };
-    socket.on('chat message', function(data) {        
+    socket.on('new message', function(data) {        
         messages.push(data);
         console.log(data);
         $scope.messages=messages;
